@@ -52,23 +52,17 @@ def get_groove(params)
   return [1] if ticks < 1
   return [255] if ticks > 255
 
-  candidates = []
-  (1..params[:max]).each do |k|
+  best = (1..params[:max]).map do |k|
     next if params[:rows] && params[:rows] % k != 0
     cycle = (ticks * k).round
-    candidates << [k, cycle, cycle / k.to_f]
-  end
-  best = candidates.min do |a, b|
+    [k, cycle, cycle / k.to_f]
+  end.compact.min do |a, b|
     [(ticks - a[2]).abs, a[0]] <=> [(ticks - b[2]).abs, b[0]]
   end
 
-  t = -1
-  out = []
-  best[0].times do
-    out << (t + best[1]) / best[0] - t / best[0]
-    t += best[1]
+  (0...best[0]).map do |t|
+    (best[1] * (t + 1) - 1) / best[0] - (best[1] * t - 1) / best[0]
   end
-  out
 end
 
 if ARGV.empty?
@@ -78,7 +72,7 @@ end
 params = get_args ARGV
 if !params then
   STDERR.puts 'Error while parsing arguments.'
-  exit
+  exit 1
 end
 
 puts get_groove(params).join ' '
