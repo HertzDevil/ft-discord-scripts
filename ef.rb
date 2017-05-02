@@ -35,13 +35,13 @@ when '4'
   puts '| ' + ((1..(64 / (xval.gcd 64))).map do |x|
     case phase = xval * x % 64
     when 0..15
-      VIB_TABLE[yval][phase]
+      -VIB_TABLE[yval][phase]
     when 16..31
-      VIB_TABLE[yval][31 - phase]
+      -VIB_TABLE[yval][31 - phase]
     when 32..47
-      -VIB_TABLE[yval][phase - 32]
+      VIB_TABLE[yval][phase - 32]
     when 48..63
-      -VIB_TABLE[yval][63 - phase]
+      VIB_TABLE[yval][63 - phase]
     end
   end.join ' ')
 when '7'
