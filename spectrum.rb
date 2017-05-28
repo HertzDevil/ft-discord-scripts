@@ -15,7 +15,7 @@ def ft_step(a, s, f, k)
   return k / s.to_f if f == 0
   pi_f = Math::PI * f
   Math.sin(pi_f / s) * k / pi_f *
-    Math::E ** (-(2.0 * a + 1.0 / s) / pi_f * 1i)
+    Math::E ** (-(2.0 * a + 1.0 / s) * pi_f * 1i)
 end
 
 def spectrum(f, *t)
