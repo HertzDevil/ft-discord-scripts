@@ -31,7 +31,7 @@ end
 case cmd
 when '4'
   if xval == 0 || yval == 0
-    print '0'; return
+    print '0'; exit
   end
   puts '| ' + ((1..(64 / (xval.gcd 64))).map do |x|
     case phase = xval * x % 64
@@ -47,7 +47,7 @@ when '4'
   end.join ' ')
 when '7'
   if xval == 0 || yval == 0
-    print '0'; return
+    print '0'; exit
   end
   puts '| ' + ((1..(64 / (xval.gcd 64))).map do |x|
     case phase = (xval * x % 64) >> 1
