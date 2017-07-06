@@ -75,14 +75,12 @@ def convert(arg)
     loop += 1
   end
 
-  print '{ '
   relative = sequence.each_cons(2).map {|x, y| y - x}.unshift sequence[0]
   relative.each_with_index do |v, i|
     print '/ ' if i == release
     print '| ' if i == loop
     print v, ' '
   end
-  print "}\n"
 end
 
 if ARGV.empty?
