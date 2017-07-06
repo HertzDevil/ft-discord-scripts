@@ -1,8 +1,9 @@
 #!/usr/bin/ruby
 
 DESC = 'BPM-to-groove converter.
-Options, append after numbers:
-- `bpm`: BPM value (default key for unmatched numbers)
+Usage: ./groove.rb <bpm> [<option>...]
+Options:
+- `bpm`: BPM value (overrides previosu value)
 - `beat`: first highlight value (default 4)
 - `hz`: refresh rate (default 60)
 - `rows`: groove size, result groove must fit evenly

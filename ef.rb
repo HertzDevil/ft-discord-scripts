@@ -1,6 +1,7 @@
 #!/usr/bin/ruby
 
 DESC = 'Returns a default equivalent sequence for an effect command.
+Usage: ./ef.rb <effect>
 Supported effects: 4 (absolute sequence), 7, A, T.'
 
 VIB_DEPTH = [

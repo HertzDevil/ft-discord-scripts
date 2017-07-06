@@ -1,7 +1,8 @@
 #!/usr/bin/ruby
 
 DESC = 'Computes the spectrum of a waveform. No scaling is done.
-Options, can appear anywhere:
+Usage: ./spectrum.rb [<option>...] <values>...
+Options:
 - `db`: Output values in decibels'
 
 #def ft(a, b, f, k)
