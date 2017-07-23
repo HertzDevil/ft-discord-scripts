@@ -77,8 +77,8 @@ if !params then
 end
 
 groove = get_groove(params)
-bpm = params[:hz] * 60 * groove.size / params[:beat] / groove.reduce(0, &:+)
+bpm = params[:hz] * 60.0 * groove.size / params[:beat] / groove.reduce(0, &:+)
 error = bpm / params[:bpm] - 1
 
 puts groove.join ' '
-puts 'Actual BPM: %.2f (%+4.1f%%)' % [bpm, error * 100]
+puts 'Actual BPM: %.2f (%+.3g%%)' % [bpm, error * 100]
