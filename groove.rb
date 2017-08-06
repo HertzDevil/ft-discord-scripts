@@ -3,11 +3,13 @@
 DESC = 'BPM-to-groove converter.
 Usage: ./groove.rb <bpm> [<option>...]
 Options:
-- `bpm`: BPM value (overrides previosu value)
 - `beat`: first highlight value (default 4)
 - `hz`: refresh rate (default 60)
 - `rows`: groove size, result groove must fit evenly
 - `max`: maximum groove size (default 16)
+- `ntsc`: equivalent to `60.0988 hz`
+- `pal`: equivalent to `50.007 hz`
+- `usec`: refresh interval in microseconds
 Examples:
 - `groove 120 bpm` => `8 7`
 - `groove 120 8 beat` => `4 4 4 3`
@@ -16,20 +18,30 @@ Examples:
 - `groove 170 8 max` => `6 5 5 6 5 5 5`'
 
 def get_args(t)
-  args = {beat: 4, hz: 60, max: 16}
+  args = {beat: 4, bpm: t.shift.to_f, hz: 60, max: 16}
   need_num = true
   last = nil
 
   t.each do |x|
     if need_num
-      begin
-        last = Float(x)
-      rescue
-        return
+      case x
+      when 'ntsc'
+        args[:hz] = 60.0988
+      when 'pal'
+        args[:hz] = 50.007
+      else
+        begin
+          last = x.to_f
+        rescue
+          return
+        end
+        need_num = false
       end
-      need_num = false
     else
       case x
+      when 'usec'
+        args[:hz] = 1000000.0 / last
+        need_num = true
       when 'bpm', 'beat', 'hz', 'rows', 'max'
         args[x.to_sym] = last
         need_num = true
