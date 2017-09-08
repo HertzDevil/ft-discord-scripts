@@ -6,8 +6,8 @@ the unofficial FamiTracker Discord server.
 To run a script called `script.rb`, post one of the following:
 
 - `ruby script.rb`
-- `:ruby: script.rb`
 - `./script.rb`
+<!-- - `:ruby: script.rb` -->
 
 Extra command-line arguments can be passed in the usual manner. The entire
 message can be enclosed in tildes to disable formatting. Newlines in the command
