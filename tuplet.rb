@@ -6,7 +6,7 @@ Options:
   -Tx: Set tempo to x (default 150)
   -Sx[,x...]: Set speed to x, use multiple values for groove (default 6)
   -Rx: Set refresh rate to x (default 60)
-  -q: Hide tick count and error in output'
+  -v: Show tick count and error in output'
 
 def croak(msg)
   STDERR.puts msg
@@ -58,7 +58,7 @@ def gxx_string(rows, notes, opt)
     speed = fxx
     if note = pattern.find {|r| r[:row] == x}
       notestr, delay = 'C-3 00 .', note[:Gxx].round
-      comment = opt[:hidecomments] ? '' :
+      comment = !opt[:showcomments] ? '' :
         '    # length = %2d; error = %+.2f' % [note[:length], note[:error]]
     else
       notestr, delay, comment = '... .. .', 0, ''
@@ -82,8 +82,8 @@ ARGV.each do |x|
     opt[:speed] = $1.split(',').map(&:to_i)
   when /^\-R(.*)$/
     opt[:rate] = $1.to_f
-  when /^\-q$/
-    opt[:hidecomments] = true
+  when /^\-v$/
+    opt[:showcomments] = true
   else
     croak 'Error while parsing arguments.'
   end
