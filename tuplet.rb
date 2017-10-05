@@ -72,23 +72,28 @@ if ARGV.length < 2
   puts DESC
   exit
 end
-rows, notes = ARGV.shift(2).map(&:to_i)
-opt = {tempo: 150, speed: [6], rate: 60}
-ARGV.each do |x|
-  case x
-  when /^\-T(.*)$/
-    opt[:tempo] = $1.to_i
-  when /^\-S(.*)$/
-    opt[:speed] = $1.split(',').map(&:to_i)
-  when /^\-R(.*)$/
-    opt[:rate] = $1.to_f
-  when /^\-v$/
-    opt[:showcomments] = true
-  else
-    croak 'Error while parsing arguments.'
+
+begin
+  rows, notes = ARGV.shift(2).map {|x| Integer(x)}
+  opt = {tempo: 150, speed: [6], rate: 60}
+  ARGV.each do |x|
+    case x
+    when /^\-T(.*)$/
+      opt[:tempo] = Integer($1)
+    when /^\-S(.*)$/
+      opt[:speed] = $1.split(',').map {|x| Integer(x)}
+    when /^\-R(.*)$/
+      opt[:rate] = $1.to_f
+    when /^\-v$/
+      opt[:showcomments] = true
+    else
+      croak 'Error while parsing arguments.'
+    end
   end
+  croak 'Error while parsing arguments.' if rows <= 0 || notes <= 0 ||
+    opt[:tempo] <= 0 || opt[:rate] <= 0 ||
+    opt[:speed].empty? || opt[:speed].any? {|x| x <= 0}
+  puts gxx_string(rows, notes, opt)
+rescue ArgumentError
+  croak 'Error while parsing arguments.'
 end
-croak 'Error while parsing arguments.' if rows <= 0 || notes <= 0 ||
-  opt[:tempo] <= 0 || opt[:rate] <= 0 ||
-  opt[:speed].empty? || opt[:speed].any? {|x| x <= 0}
-puts gxx_string(rows, notes, opt)
