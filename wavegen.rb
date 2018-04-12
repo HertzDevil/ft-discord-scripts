@@ -155,6 +155,10 @@ croak DESC if ARGV.empty?
 params = get_args ARGV
 croak 'Error while parsing arguments.' if !params
 
-File.open(OUTNAME, 'wb') do |f|
-  f.write make_samples(params)
+begin
+  File.open(OUTNAME, 'wb') do |f|
+    f.write make_samples(params)
+  end
+rescue WaveFile::InvalidFormatError
+  croak 'Invalid WAV file.'
 end
