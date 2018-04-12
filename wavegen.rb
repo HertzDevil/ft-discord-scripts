@@ -4,8 +4,8 @@ require 'wavefile'
 
 OUTNAME = 'sampled.fti'
 
-DESC = 'Samples a WAV file as an N163 instrument.
-Usage: ./wavegen.rb [<option>...] <infile>
+DESC = 'Samples a WAV file from standard input as an N163 instrument.
+Usage: ./wavegen.rb [<option>...]
 Options:
 - `-Lx`: Number of oscillations in loop region (default 1)
 - `-Bx`: Wave loop point in samples (default 0)
@@ -20,11 +20,11 @@ def croak(str)
 end
 
 def get_args(t)
-  args = {fname: t.pop,
+  args = {#fname: t.pop,
     loopstart: 0, loopcount: 1,
     wavesize: 32, wavecount: 16, refresh: 60.0, transpose: 0.0,
   }
-  croak 'File does not exist.' if !File.exist?(args[:fname])
+  #croak 'File does not exist.' if !File.exist?(args[:fname])
   begin
     t.each do |x|
       case x
@@ -71,7 +71,7 @@ class SampleReader
     @wavecount = args[:wavecount] || 16
     @refresh   = args[:refresh]   || 60.0
 
-    reader = WaveFile::Reader.new(args[:fname],
+    reader = WaveFile::Reader.new(STDIN, #args[:fname],
       WaveFile::Format.new(:mono, :float, 48000))
     @samples = []
     reader.each_buffer do |buffer|
@@ -136,7 +136,7 @@ end
 def make_samples(args)
   reader = SampleReader.new(args)
 
-  out = "FTI2.4\x05" + [args[:fname].size].pack('<I') + args[:fname] +
+  out = "FTI2.4\x05" + [OUTNAME.size].pack('<I') + OUTNAME +
     "\x05\x00\x00\x00\x00\x01" +
     [reader.seqlen, reader.loop_point, -1, 0].pack('<I<I<I<I')
   reader.seqlen.times do |x|
