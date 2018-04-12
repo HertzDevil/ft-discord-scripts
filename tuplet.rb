@@ -3,10 +3,10 @@
 DESC = 'Tuplet calculator, ported from Lua.
 Usage: ./tuplet.rb <rows> <notes> [<option>...]
 Options:
-  -Tx: Set tempo to x (default 150)
-  -Sx[,x...]: Set speed to x, use multiple values for groove (default 6)
-  -Rx: Set refresh rate to x (default 60)
-  -v: Show tick count and error in output'
+  -`Tx`: Set tempo to x (default 150)
+  -`Sx[,x...]`: Set speed to x, use multiple values for groove (default 6)
+  -`Rx`: Set refresh rate to x (default 60)
+  -`v`: Show tick count and error in output'
 
 def croak(msg)
   STDERR.puts msg
@@ -90,7 +90,7 @@ begin
       croak 'Error while parsing arguments.'
     end
   end
-  croak 'Error while parsing arguments.' if rows <= 0 || notes <= 0 ||
+  croak 'Invalid arguments.' if rows <= 0 || notes <= 0 ||
     opt[:tempo] <= 0 || opt[:rate] <= 0 ||
     opt[:speed].empty? || opt[:speed].any? {|x| x <= 0}
   puts gxx_string(rows, notes, opt)
