@@ -151,10 +151,7 @@ def make_samples(args)
   out
 end
 
-if ARGV.empty?
-  puts DESC
-  exit
-end
+croak DESC if ARGV.empty?
 params = get_args ARGV
 croak 'Error while parsing arguments.' if !params
 
